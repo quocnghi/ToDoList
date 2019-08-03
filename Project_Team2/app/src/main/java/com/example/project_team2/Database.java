@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by ADMIN on 8/2/2019.
  */
 
+// CẬp nhật
 public class Database extends SQLiteOpenHelper {
     public Database(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
