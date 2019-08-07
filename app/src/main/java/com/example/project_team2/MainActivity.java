@@ -1,9 +1,17 @@
 package com.example.project_team2;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -36,8 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
         // INSERT database code
 //      database.QueryData("INSERT INTO CongViec VALUES(null,'Đi Học') ");
+        GetdataCongViec();
+    }
 
-//        private void GetdataCongViec () {
+       private void GetdataCongViec () {
             //select data
             Cursor dataCongViec = database.Getdata("SELECT * FROM CongViec");
             arrayCongViec.clear();     //ngắt lặp lại dữ liệu
@@ -48,8 +58,57 @@ public class MainActivity extends AppCompatActivity {
                 arrayCongViec.add(new CongViec(id, ten));
             }
             adapter.notifyDataSetChanged();
-//        }
 
+    }
 
+       //icon add cong viec
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.add_congviec, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == R.id.menuAdd){
+            Dialogthem();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void Dialogthem(){
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_them_cong_viec);
+
+        final EditText etdTen = dialog.findViewById(R.id.editTextCV);
+        Button nutThem = (Button) dialog.findViewById(R.id.btnThem);
+        Button nutHuy = (Button) dialog.findViewById(R.id.btnHuy);
+
+        nutHuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        nutThem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tencv = etdTen.getText().toString();
+                if (tencv.equals("")){
+                    Toast.makeText(MainActivity.this,"Vui lòng nhập tên công việc!", Toast.LENGTH_SHORT).show();
+                }else {
+                    database.QueryData("INSERT INTO CongViec VALUES(null,'"+tencv+"') ");  //tách chuỗi để nối biến tencv
+                    Toast.makeText(MainActivity.this,"Đã thêm "+ tencv +"", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    GetdataCongViec();
+                }
+            }
+        });
+
+        dialog.show();
     }
 }
