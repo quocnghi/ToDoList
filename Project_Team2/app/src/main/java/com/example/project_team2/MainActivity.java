@@ -1,9 +1,11 @@
 package com.example.project_team2;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
@@ -47,6 +49,24 @@ public class MainActivity extends AppCompatActivity {
         GetdataCongViec();
     }
 
+    //dialog xóa
+    public void DialogXoaCV(final String tencv, final int id){
+        AlertDialog.Builder dialogXoa = new AlertDialog.Builder(this);
+        dialogXoa.setMessage("Bạn có muốn xóa" +tencv+ "không ?");
+        dialogXoa.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                database.QueryData("DELETE FROM CongViec WHERE Id = '"+ id +"'");
+                Toast.makeText(MainActivity.this, "Đã Xóa" + tencv, Toast.LENGTH_SHORT).show();
+                GetdataCongViec(); //load lại dữ liệu
+            }
+        });
+
+
+        dialogXoa.show();
+    }
+
+
     public void DialogSuaCV(String ten, final int id){
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -55,6 +75,13 @@ public class MainActivity extends AppCompatActivity {
         final EditText edtTenCv = (EditText) dialog.findViewById(R.id.editTextTenCvEdit);
         Button btnXacNhan = (Button) dialog.findViewById(R.id.buttonXacNhanEdit);
         Button btnHuy = (Button) dialog.findViewById(R.id.buttonHuyEdit);
+
+        btnHuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
 
         edtTenCv.setText(ten);
 
@@ -103,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.menuAdd){
             Dialogthem();

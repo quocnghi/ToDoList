@@ -65,19 +65,20 @@ public class CongViecAdapter extends BaseAdapter {
         holder.txtTen.setText(congViec.getTenCV());
 
         //bắt sự kiện nút edit và delete
-        holder.imgEdit.setOnClickListener(new View.OnClickListener() {
+       holder.imgEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 context.DialogSuaCV(congViec.getTenCV(),congViec.getIdCV());
+
             }
         });
-//
-//        holder.imgDelete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                context.DialogXoaCV(congViec.getTenCV(), congViec.getIdCV());
-//            }
-//        });
+
+        holder.imgDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.DialogXoaCV(congViec.getTenCV(), congViec.getIdCV());
+            }
+        });
 
         return view;
     }
