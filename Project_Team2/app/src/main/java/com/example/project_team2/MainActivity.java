@@ -62,7 +62,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        dialogXoa.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
+            }
+        });
         dialogXoa.show();
     }
 
